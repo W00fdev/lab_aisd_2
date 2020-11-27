@@ -68,7 +68,7 @@ void BogoSort(int* arr, int size) {
     }
 }
 
-void __QuickSort(int* arr, int _l, int _r) {
+void QuickSort(int* arr, int _l, int _r) {
     if (_l > _r) throw logic_error("quick sort: l > r");
     if (_r - _l <= 0) throw out_of_range("array's size's <= 0");
 
@@ -84,12 +84,12 @@ void __QuickSort(int* arr, int _l, int _r) {
         if (left <= right)
             swap(arr, left++, right--);
     }
-    if (_l < right) __QuickSort(arr, _l, right);
-    if (_r > left) __QuickSort(arr, left, _r);
+    if (_l < right) QuickSort(arr, _l, right);
+    if (_r > left) QuickSort(arr, left, _r);
 }
 
 void QuickSort(int* arr, int size) {
-    __QuickSort(arr, 0, size - 1);
+    QuickSort(arr, 0, size - 1);
 }
 
 void CountingSort(char* arr, char size) {
@@ -135,7 +135,7 @@ void Analyzer() {
             }
 
             clock_t start = clock();
-            QuickSort(data_1, CHECK);
+            QuickSort(data_1,CHECK);
             clock_t end = clock();
             est_time_1 += (double) 1000 * (end - start) / CLOCKS_PER_SEC;
 
@@ -179,6 +179,23 @@ int main() {
 //    for (char i =0; i < 10; i++) cout << (int)arr[i] << " ";
 
     Analyzer();
+//    double est = 0.0;
+//    for (int j = 0; j < 10; j++) {
+//        int *data_1 = new int[100'000];
+//        for (int i = 0; i < 100'000; i++) {
+//            int num = rand() % INT16_MAX;
+//            data_1[i] = num;
+//        }
+//
+//
+//        clock_t start = clock();
+//        QuickSort(data_1, 100'000);
+//        clock_t end = clock();
+//        est += (double) 1000*  (end - start) / CLOCKS_PER_SEC;
+//        delete[] data_1;
+//    }
+//    est /= 10.0;
+//    cout << est << endl;
 
     return 0;
 }
