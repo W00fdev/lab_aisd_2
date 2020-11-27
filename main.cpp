@@ -5,11 +5,16 @@
 #include <functional>
 #include <time.h>
 
+#include <gtest/gtest.h>
+#include "alg.h"
+
 using namespace std;
 
 int BinarySearch(const int *arr, int key, int left, int right) {
+    if (left >= right || left < 0 || right < 0) {
+        throw logic_error("left and right parts are incorrect");
+    } else
     if (key > arr[right - 1] || key < arr[left]) return -1; // There's no such element
-    if (left >= right) throw logic_error("left and right parts are incorrect");
 
     int mid;
     while (left != right) {
@@ -69,8 +74,7 @@ void BogoSort(int* arr, int size) {
 }
 
 void QuickSort(int* arr, int _l, int _r) {
-    if (_l > _r) throw logic_error("quick sort: l > r");
-    if (_r - _l <= 0) throw out_of_range("array's size's <= 0");
+    if (_l > _r || _l < 0 || _r < 0) throw logic_error("incorrect arguments in quicksort");
 
     int left = _l, right = _r, medium = (left + right) / 2;
     int pivot = arr[medium];
@@ -102,7 +106,7 @@ void CountingSort(char* arr, char size) {
     char* num_arr = new char[max + 1];
     int pos = 0;
 
-    for (char i = 0; i < max; i++) num_arr[i] = 0;
+    for (char i = 0; i < max + 1; i++) num_arr[i] = 0;
     for (char i = 0; i < size; i++) num_arr[arr[i]]++;
     for (char number = 0; number < max + 1; number++) {
         for (char j = 0; j < num_arr[number]; j++) {
@@ -178,7 +182,7 @@ int main() {
 //    CountingSort(arr, 10);
 //    for (char i =0; i < 10; i++) cout << (int)arr[i] << " ";
 
-    Analyzer();
+//    Analyzer();
 //    double est = 0.0;
 //    for (int j = 0; j < 10; j++) {
 //        int *data_1 = new int[100'000];
@@ -197,5 +201,6 @@ int main() {
 //    est /= 10.0;
 //    cout << est << endl;
 
-    return 0;
+    testing::InitGoogleTest();
+    return RUN_ALL_TESTS();
 }
