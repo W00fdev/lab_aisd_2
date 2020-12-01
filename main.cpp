@@ -10,107 +10,107 @@
 
 using namespace std;
 
-int BinarySearch(const int *arr, int key, int left, int right) {
+int BinarySearch(const int *array, int key, int left, int right) {
     if (left >= right || left < 0 || right < 0) {
         throw logic_error("left and right parts are incorrect");
     } else
-    if (key > arr[right - 1] || key < arr[left]) return -1; // There's no such element
+    if (key > array[right - 1] || key < array[left]) return -1; // There's no such element
 
     int mid;
     while (left != right) {
         mid = (left + right) / 2;
 
-        if (arr[left] == key) return left;  // Нахождение самого первого! элемента
-        if (arr[mid] == key) {
+        if (array[left] == key) return left;  // Нахождение самого первого! элемента
+        if (array[mid] == key) {
             if (mid == left + 1) return mid;
             else right = mid + 1;
         }
 
-        if (arr[mid] < key) left = mid + 1;
-        else if (arr[mid] > key) right = mid - 1;
+        if (array[mid] < key) left = mid + 1;
+        else if (array[mid] > key) right = mid - 1;
     }
 
-    if (arr[left] == key) return left;
+    if (array[left] == key) return left;
 
     return -1;  // There's no such element
 }
 
-void swap(int* arr, int index1, int index2) {
-    int temp = arr[index1];
-    arr[index1] = arr[index2];
-    arr[index2] = temp;
+void swap(int* array, int left, int right) {
+    int temp = array[right];
+    array[right] = array[right];
+    array[right] = temp;
 }
 
-void InsertionSort(int* arr, int size) {
+void InsertionSort(int* array, int size) {
     if (size < 0) throw logic_error("InsertionSort's size is < 0");
 
     for (int i = 1; i < size; i++) {
-        for (int j = i; j > 0 && arr[j-1] > arr[j]; j--)
-            swap(arr, j-1, j);
+        for (int j = i; j > 0 && array[j-1] > array[j]; j--)
+            swap(array, j-1, j);
     }
 }
 
-bool isSorted(const int* arr, int size) {
+bool isSorted(const int* array, int size) {
     for (int i = 1; i < size; i++) {
-        if (arr[i - 1] > arr[i]) return false;
+        if (array[i - 1] > array[i]) return false;
     }
 
     return true;
 }
 
-void BogoSort(int* arr, int size) {
+void BogoSort(int* array, int size) {
     if (size < 0) throw logic_error("BogoSort's size is < 0");
 
     srand(time(nullptr));
 
-    while(!isSorted(arr,size)) {
+    while(!isSorted(array,size)) {
         for (int i = 0; i < size; i++) {
             int position = rand() % size;
-            int temp = arr[i];
-            arr[i] = arr[position];
-            arr[position] = temp;
+            int temp = array[i];
+            array[i] = array[position];
+            array[position] = temp;
         }
     }
 }
 
-void QuickSort(int* arr, int _l, int _r) {
-    if (_l > _r || _l < 0 || _r < 0) throw logic_error("incorrect arguments in quicksort");
+void QuickSort(int* array, int source_left, int source_right) {
+    if (source_left > source_right || source_left < 0 || source_right < 0) throw logic_error("incorrect arguments in quicksort");
 
-    int left = _l, right = _r, medium = (left + right) / 2;
-    int pivot = arr[medium];
+    int left = source_left, right = source_right, medium = (left + right) / 2;
+    int pivot = array[medium];
 
     while (left <= right) {
-        while (arr[left] < pivot)
+        while (array[left] < pivot)
             left++;
-        while (arr[right] > pivot)
+        while (array[right] > pivot)
             right--;
 
         if (left <= right)
-            swap(arr, left++, right--);
+            swap(array, left++, right--);
     }
-    if (_l < right) QuickSort(arr, _l, right);
-    if (_r > left) QuickSort(arr, left, _r);
+    if (source_left < right) QuickSort(array, source_left, right);
+    if (source_right > left) QuickSort(array, left, source_right);
 }
 
-void QuickSort(int* arr, int size) {
-    QuickSort(arr, 0, size - 1);
+void QuickSort(int* array, int size) {
+    QuickSort(array, 0, size - 1);
 }
 
-void CountingSort(char* arr, char size) {
+void CountingSort(char* array, char size) {
     if (size < 0) throw logic_error("CountingSort's size is < 0");
 
     char max = INT8_MIN;
     for (char i = 0; i < size; i++)
-        if (arr[i] > max) max = arr[i];
+        if (array[i] > max) max = array[i];
 
     char* num_arr = new char[max + 1];
     int pos = 0;
 
     for (char i = 0; i < max + 1; i++) num_arr[i] = 0;
-    for (char i = 0; i < size; i++) num_arr[arr[i]]++;
+    for (char i = 0; i < size; i++) num_arr[array[i]]++;
     for (char number = 0; number < max + 1; number++) {
         for (char j = 0; j < num_arr[number]; j++) {
-            arr[pos] = number;
+            array[pos] = number;
             pos++;
         }
     }
@@ -163,44 +163,6 @@ void Analyzer() {
 }
 
 int main() {
-//    int arr[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-//    cout << BinarySearch(arr, 2, 0, 10) << endl;
-//    cout << BinarySearch(arr, 10, 0, 10) << endl;
-//    cout << BinarySearch(arr, 11, 0, 10) << endl;
-
-//    int arr[10] = {10, 9, 8, 7, 10, 11, 15, 6, 3, 2};
-//    InsertionSort(arr, 10);
-//    for (int i =0; i < 10; i++) cout << arr[i] << " ";
-
-  //  int arr[4] = {4, 3, 2, 1};
-//    BogoSort(arr, 10);
-//    for (int i =0; i < 10; i++) cout << arr[i] << " ";
-
-//    char arr[10] = {10, 9, 8, 7, 10, 11, 15, 6, 10, 12};
-//
-//    //QuickSort(arr, 0, 9);
-//    CountingSort(arr, 10);
-//    for (char i =0; i < 10; i++) cout << (int)arr[i] << " ";
-
-//    Analyzer();
-//    double est = 0.0;
-//    for (int j = 0; j < 10; j++) {
-//        int *data_1 = new int[100'000];
-//        for (int i = 0; i < 100'000; i++) {
-//            int num = rand() % INT16_MAX;
-//            data_1[i] = num;
-//        }
-//
-//
-//        clock_t start = clock();
-//        QuickSort(data_1, 100'000);
-//        clock_t end = clock();
-//        est += (double) 1000*  (end - start) / CLOCKS_PER_SEC;
-//        delete[] data_1;
-//    }
-//    est /= 10.0;
-//    cout << est << endl;
-
     testing::InitGoogleTest();
     return RUN_ALL_TESTS();
 }
