@@ -16,18 +16,18 @@ int BinarySearch(const int *array, int key, int left, int right) {
     } else
     if (key > array[right - 1] || key < array[left]) return -1; // There's no such element
 
-    int mid;
+    int middle;
     while (left != right) {
-        mid = (left + right) / 2;
+        middle = (left + right) / 2;
 
         if (array[left] == key) return left;  // Нахождение самого первого! элемента
-        if (array[mid] == key) {
-            if (mid == left + 1) return mid;
-            else right = mid + 1;
+        if (array[middle] == key) {
+            if (middle == left + 1) return middle;
+            else right = middle + 1;
         }
 
-        if (array[mid] < key) left = mid + 1;
-        else if (array[mid] > key) right = mid - 1;
+        if (array[middle] < key) left = middle + 1;
+        else if (array[middle] > key) right = middle - 1;
     }
 
     if (array[left] == key) return left;
@@ -37,8 +37,8 @@ int BinarySearch(const int *array, int key, int left, int right) {
 
 void swap(int* array, int left, int right) {
     int temp = array[right];
-    array[right] = array[right];
-    array[right] = temp;
+    array[right] = array[left];
+    array[left] = temp;
 }
 
 void InsertionSort(int* array, int size) {
@@ -103,19 +103,19 @@ void CountingSort(char* array, char size) {
     for (char i = 0; i < size; i++)
         if (array[i] > max) max = array[i];
 
-    char* num_arr = new char[max + 1];
+    char* counting_array = new char[max + 1];
     int pos = 0;
 
-    for (char i = 0; i < max + 1; i++) num_arr[i] = 0;
-    for (char i = 0; i < size; i++) num_arr[array[i]]++;
+    for (char i = 0; i < max + 1; i++) counting_array[i] = 0;
+    for (char i = 0; i < size; i++) counting_array[array[i]]++;
     for (char number = 0; number < max + 1; number++) {
-        for (char j = 0; j < num_arr[number]; j++) {
+        for (char j = 0; j < counting_array[number]; j++) {
             array[pos] = number;
             pos++;
         }
     }
 
-    delete[] num_arr;
+    delete[] counting_array;
 }
 
 // --------------------------- ANALYZE ------------------------------
